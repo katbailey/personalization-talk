@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Personalization in Drupal</title>
+
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Personalization in Drupal</h2>
+					<h4>Using and extending Personalize module</h4>
+					<p>
+						<small>Presented by <a href="http://katbailey.github.io">Kat Bailey</a> / <a href="http://twitter.com/katherinebailey">@katherinebailey</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Note on Acquia Lift</h2>
+					<p>
+						Acquia Lift is a SaaS offering from Acquia. The Drupal code we wrote to talk to the service was written in such a way as to be able to talk to any other such service or to be used without any "personalization service" at all.
+					</p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<h2>What is personalization?</h2>
+						<p>
+							Showing different content to different users based on some criteria.
+						</p>
+
+							<img src="images/drupalorg_ss.png" alt="personalized">
+
+					</section>
+					<section>
+						<h2>Machine Learning based personalization</h2>
+                        <ul>
+                            <li>Testing different options (A/B test) and adapting over time based on the results.</li>
+                            <li>Needs a goal mechanism to inform the learning</li>
+                            <li>Examples: Optimizely, Adobe Test&Target, Acquia Lift</li>
+                        </ul>
+					</section>
+					<section>
+						<h2>Rules-based personalization</h2>
+                        <ul>
+                            <li>Content is chosen based on some fixed rule, e.g. users in Canada get Option A, users in the US get Option B.</li>
+                            <li>No goal mechanism required</li>
+                            <li>Example: "Personalize Target" submodule of Personalize project on d.o</li>
+                        </ul>
+					</section>
+					<section>
+						<h2>Targeting == Context</h2>
+						<p>Anything you know about site visitors can be used in either machine-learning- or rules-based personalization.</p>
+                        <ul>
+                            <li>Explicit information: e.g. Drupal user profile fields</li>
+                            <li>Implicit information: e.g. geolocation, time of day, referrer URL, UTM parameters</li>
+                        </ul>
+					</section>
+                    <section>
+                        <h2>A Quick Demo</h2>
+                        <img src="images/valen_ss.png" alt="valen demo">
+                    </section>
+				</section>
+
+
+				<section>
+					<h3>Crazy diagram time!</h3>
+                    <img src="images/diagram.png" alt="personalization diagram">
+				</section>
+                <section data-transition="none">
+                    <h3>Crazy diagram time!</h3>
+                    <img src="images/diagram_fade.png" alt="personalization diagram">
+                </section>
+                <section>
+                    <h3>Modules</h3>
+                    <img src="images/AcquiaL.jpg" alt="personalization modules">
+                </section>
+                <section data-transition="none">
+                    <h3>Modules</h3>
+                    <img src="images/AcquiaL1.jpg" alt="personalization modules">
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Workflow</h2>
+                        <ul>
+                            <li>Set up a personalization campaign</li>
+                            <li>Create content variations</li>
+                            <li>(optional) configure explicit targeting</li>
+                            <li>(optional) Specify Goals</li>
+                            <li>Start the campaign</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Moar Demos</h3>
+                        <img src="images/configuration.png" alt="admin demo">
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Components of the personalization framework</h2>
+                    </section>
+                    <section>
+                        <h2>Agents</h2>
+                        <img src="images/agent_decision.png" alt="agent">
+                    </section>
+                    <section>
+                        <h2>Option Sets</h2>
+                        <div class="left"><div class="inner">
+                            <ul>
+                                <li>Different values in a multi-value field</li>
+                                <li>Different blocks</li>
+                                <li>Different blobs of html to replace the contents of some selector</li>
+                                <li>Different panel panes?</li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div id="kat"><img class="no-border" src="images/option_set.png" alt="agent" align="right"></div>
+                    </section>
+                    <section>
+                        <h2>Executors</h2>
+                        <img src="images/executor.png" alt="agent">
+                    </section>
+                </section>
+                <section>
+                    <h1>How can you extend this?</h1>
+                </section>
+                <section>
+                    <section>
+                        <h2>Agent type plugins</h2>
+                        <p>An agent, or decision agent, is the thing that makes the decision about which piece of content to show</p>
+                    </section>
+                    <section>
+                        <h2>Agent type plugins</h2>
+                        <ul>
+                            <li>A/B Testing</li>
+                            <li>Explicit Targeting</li>
+                            <li>Machine Learning (e.g. Google Content Experiments?)</li>
+                            <li>Content Recommendation</li>
+                            <li>Etc...</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Writing an Agent Type plugin</h2>
+                        <ul>
+                            <li>Some PHP code (ctools plugin glue code plus a class implementing a particular interface) for configuring the behavior of the agent.</li>
+                            <li>Some JS code that responds to a request for a decision and provides the decison as to what to show.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Agent Type plugin examples</h2>
+                        <ul>
+                            <li>Personalize Target</li>
+                            <li>Acquia Lift</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Visitor Context Plugins</h2>
+                        <p>These give access to things we can know about the visitor, e.g. user profile information, querystring parameters.</p>
+                    </section>
+                    <section tagcloud>
+                        Season
+                        Time
+                        Business
+                        Proximity
+                        Location
+                        Day
+                        Browser
+                        Census data
+                        Weather
+                        Device
+                        Age
+                        UTM parameters
+                        Loyalty
+                        Personal Info
+                        Occupation
+                        Gender
+                        Past behavior
+                        Interests
+                        Clickstream
+                        Referrer
+                        Social likes
+                        Purchases
+                    </section>
+                    <section>
+                        <h2>Writing a Visitor Context plugin</h2>
+                        <ul>
+                            <li>Some PHP code (ctools plugin glue code plus a class implementing a particular interface) that plugs into personalize module's configuration of visitor contexts.</li>
+                            <li>Some JS code that passes the actual values of these contexts at runtime to the personalization mechanism.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Visitor Context plugin examples</h2>
+                        <ul>
+                            <li>User Profile context (in personalize module)</li>
+                            <li>Personalize URL Context submodule (for targeting based on querystring parameters).</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Option Set Type Plugins</h2>
+                        <p>These allow personalization of different types of Drupal content.</p>
+                    </section>
+                    <section tagcloud large>
+                        Fields
+                        Blocks
+                        Panel panes
+                        Arbitrary page elements
+                        Page layouts
+                    </section>
+                    <section>
+                        <h2>Writing an Option Set plugin</h2>
+                        <ul>
+                            <li>Uses ctools plugins but no class required - it just needs to hook in to the rendering of whatever it's personalizing </li>
+                            <li>No JS required! :D</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Option Set plugin examples</h2>
+                        <ul>
+                            <li>Personalize Fields submodule</li>
+                            <li>Personalize Blocks submodule</li>
+                            <li>Personalize Elements submodule</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Executors</h2>
+                        <p>Provide different ways of responding to a decision and depend on how the Option Set is rendered.</p>
+                        <ul>
+                            <li>Default ("show") executor: assumes all options are rendered on the page, pulls out the chosen one for display.</li>
+                            <li>AJAX ("callback") executor: no options rendered on page load, makes ajax request for the chosen content.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Writing an executor</h2>
+                        <p>Purely JavaScript - see
+                                <span style="font-size: 24px; margin-top: 20px;">Drupal.personalize.executors.show</span>
+                                and
+                                 <span style="font-size: 24px; margin-top: 20px;">Drupal.personalize.executors.callback</span>
+                                in personalize.js
+                           </p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Goals (Visitor Actions)</h2>
+                        <img src="images/goals_ss.png" alt="goals demo">
+                    </section>
+                    <section>
+                        <h2>Goals/Actions are extensible too!</h2>
+                        <ul>
+                            <li>Can be defined in code by implementing a hook</li>
+                            <li>Can be defined via the Rules UI</li>
+                            <li>You can write an Actionable Element plugin for allowing other types of things (besides links, forms and the entire page) to be actionable via the Visitor Actions UI module</li>
+                        </ul>
+                    </section>
+                </section>
+				<section>
+					<h1>Thanks!</h1>
+					<h2>Questions?</h2>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/tagcloud/tagcloud.js', async: true, }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
