@@ -158,3 +158,8 @@ body {
     font-weight: bold;
 }
 
+.reveal img.borderless {
+    border: none;
+    box-shadow: none;
+    background: none;
+}
