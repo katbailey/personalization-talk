@@ -182,9 +182,69 @@
                     <section>
                         <img src="images/google-analytics.jpg" alt="google">
                     </section>
+
                     <section>
                         <h2>GA Experiments</h2>
                         <img src="images/google_experiments-2.png" alt="google">
+                    </section>
+                    <section>
+                        <h2>Components of an Agent Type plugin</h2>
+                        <ul>
+                            <li>PHP Class implementing an interface</li>
+                            <li>JavaScript code for the actual decision</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Static method to define form elements for configration</h3>
+                        <pre><code data-trim contenteditable>
+public static function optionsForm($agent_data) {
+    $form = array();
+    // @todo For now we only support pre-configured GA experiments but we should
+    //   support creating them from the Drupal side via the Management API.
+    $form['ga_experiment'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Experiement ID'),
+        '#default_value' => isset($agent_data->data['ga_experiment']) ? $agent_data->data['ga_experiment'] : '',
+        '#description' => t('The ID of the experiment that has been configured in GA'),
+    );
+    return $form;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Configuration Form</h2>
+                        <img src="images/personalize_ga_ss-5.png" alt="personalize GA">
+                    </section>
+                    <section>
+                        <h3>Method to load the JS for the agent</h3>
+                        <pre><code data-trim contenteditable>
+public function getAssets() {
+    $cx_script = 'http://www.google-analytics.com/cx/api.js?experiment=' . $this->data['ga_experiment'];
+    return array(
+        'js' => array(
+            $cx_script => array('type' => 'external'),
+            drupal_get_path('module', 'personalize_ga') . '/personalize_ga.js' => array('type' => 'file', 'scope' => 'footer', 'defer' => TRUE),
+        )
+    );
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>JavaScript to get the decision</h3>
+                        <pre><code data-trim contenteditable>
+Drupal.personalize.agents.personalize_ga = {
+    'getDecisionsForPoint': function(agent_name, visitor_context, choices, decision_point, fallbacks, callback) {
+        var decisions = {};
+        for (var j in choices) {
+            if (choices.hasOwnProperty(j)) {
+                decisions[j] = choices[j][cxApi.chooseVariation()];
+                _gaq.push(['_trackEvent', 'Personalize', 'decision', j, variation, true]);
+            }
+        }
+        callback(decisions);
+    }
+};
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Facebook's Planout</h2>
