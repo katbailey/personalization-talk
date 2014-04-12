@@ -244,7 +244,21 @@ Drupal.personalize.agents.personalize_ga = {
                         <h2>Facebook's Planout</h2>
                         <img src="images/fb-2.png" alt="facebook">
                     </section>
+                    <section>
+                        <h3>Planout code snippet (Python)</h3>
+                        <pre><code data-trim contenteditable>
+class MyExperiment(SimpleExperiment):
+    def assign(self, params, userid):
+        params.button_color = UniformChoice(choices=['#ff0000', '#00ff00'], unit=userid)
+        params.button_text = UniformChoice(choices=['I voted', 'I am a voter'], unit=userid)
 
+...
+
+my_exp = MyExperiment(userid=42)
+color = my_exp.get('button_color')
+text = my_exp.get('button_text')
+                        </code></pre>
+                    </section>
                 </section>
                 <section>
                     <section>
@@ -283,8 +297,79 @@ Drupal.personalize.agents.personalize_ga = {
                         </ul>
                     </section>
                     <section>
+                        <h2>Components of a Visitor Context plugin</h2>
+                        <ul>
+                            <li>PHP Class implementing an interface</li>
+                            <li>JavaScript code to pass the context values to the agent</li>
+                        </ul>
+                    </section>
+                    <section>
                         <h2>New plugin example: <strong>User roles</strong></h2>
-
+                    </section>
+                    <section>
+                        <h3>Static method to define the context options</h3>
+                        <pre><code data-trim contenteditable>
+public static function getOptions() {
+    $options = array();
+    $roles = user_roles();
+        foreach ($roles as $rid => $role) {
+            if (in_array($rid, array(DRUPAL_ANONYMOUS_RID, DRUPAL_AUTHENTICATED_RID))) {
+                continue;
+            }
+            $options['role_' . $rid] = array(
+                'name' => t('@role role', array('@role' => ucfirst($role))),
+                'group' => 'Extra User Context'
+            );
+        }
+    return $options;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Configuration Form</h2>
+                        <img src="images/extra_contexts_ss-3.png" alt="extra context">
+                    </section>
+                    <section>
+                        <h3>Method to return possible values</h3>
+                        <pre><code data-trim contenteditable>
+public function getPossibleValues() {
+    $possible_values = array();
+    foreach ($this->selectedContext as $name) {
+        if (!preg_match("/role_(\d+)/", $name, $matches)) {
+            continue;
+        }
+        $role = user_role_load($matches[1]);
+        $possible_values[$name] = array(
+            'friendly name' => $role->name,
+            'values' => array(),
+        );
+        foreach (array(0 => t('Does not have'), 1 => t('Has')) as $val => $has_text) {
+            $possible_values[$name]['values'][$val] = t('@has the @role role', array('@has' => $has_text, '@role' => $role->name));
+        }
+    }
+    return $possible_values;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Explicit Targeting Config</h2>
+                        <img src="images/extra_context_ss2-2.png" alt="extra context">
+                    </section>
+                    <section>
+                        <h3>JavaScript to pass the actual values</h3>
+                        <pre><code data-trim contenteditable>
+Drupal.personalize.visitor_context.extra_context = {
+    'getContext': function(enabled) {
+        var i, context_values = {};
+        for (i in enabled) {
+            if (enabled.hasOwnProperty(i) && Drupal.settings.personalize_extra_context.hasOwnProperty(i)) {
+                context_values[i] = Drupal.settings.personalize_extra_context[i];
+            }
+        }
+        return context_values;
+    }
+};
+                        </code></pre>
                     </section>
                 </section>
 
@@ -309,11 +394,7 @@ Drupal.personalize.agents.personalize_ga = {
                 <section>
                     <section>
                         <h2>Executors</h2>
-                        <p>Provide different ways of responding to a decision and depend on how the Option Set is rendered.</p>
-                        <ul>
-                            <li>Default ("show") executor: assumes all options are rendered on the page, pulls out the chosen one for display.</li>
-                            <li>AJAX ("callback") executor: no options rendered on page load, makes ajax request for the chosen content.</li>
-                        </ul>
+
                     </section>
                     <section>
                         <h2>Writing an executor</h2>
