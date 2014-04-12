@@ -397,13 +397,19 @@ Drupal.personalize.visitor_context.extra_context = {
 
                     </section>
                     <section>
-                        <h2>Writing an executor</h2>
-                        <p>Purely JavaScript - see
-                                <span style="font-size: 24px; margin-top: 20px;">Drupal.personalize.executors.show</span>
-                                and
-                                 <span style="font-size: 24px; margin-top: 20px;">Drupal.personalize.executors.callback</span>
-                                in personalize.js
-                           </p>
+                        <h2>The "show" (default) executor</h2>
+<pre><code data-trim contenteditable>
+Drupal.personalize.executors.show = {
+    'execute': function ($option_set, choice_name, osid) {
+        var element = $('script[type="text/template"]', $option_set).get(0);
+        var json = element.innerText;
+        var choices = jQuery.parseJSON(json);
+        var winner = choices[choice_name]['html'];
+        // Append the selected option.
+        $option_set.append(winner);
+    }
+};
+</code></pre>
                     </section>
                 </section>
                 <section>
