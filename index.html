@@ -40,7 +40,7 @@
 					<p>
 						<small>Presented by <a href="http://katbailey.github.io">Kat Bailey</a> / <a href="http://twitter.com/katherinebailey">@katherinebailey</a></small><br />
                         <small>and</small><br />
-                        <small>Presented by <a href="http://drupal.org/user/352282">Dave Ingram</a> / <a href="http://twitter.com/daveaingram">@daveaingram</a></small>
+                        <small><a href="http://drupal.org/user/352282">Dave Ingram</a> / <a href="http://twitter.com/daveaingram">@daveaingram</a></small>
 					</p>
 				</section>
 
@@ -259,6 +259,12 @@ color = my_exp.get('button_color')
 text = my_exp.get('button_text')
                         </code></pre>
                     </section>
+                    <section>
+                        <h3>http://my-awesome-planout-service.com</h3>
+                        <p class="small">/get-decision/some-decision-name/option-a,option-b</p>
+                        <p class="small">/send-goal/some-goal/some-value</p>
+                        <p class="small">/get-reports/some-decision-name</p>
+                    </section>
                 </section>
                 <section>
                     <section>
@@ -307,6 +313,10 @@ text = my_exp.get('button_text')
                         <h2>New plugin example: <strong>User roles</strong></h2>
                     </section>
                     <section>
+                        <h2>Configuration Form</h2>
+                        <img src="images/extra_contexts_ss-3.png" alt="extra context">
+                    </section>
+                    <section>
                         <h3>Static method to define the context options</h3>
                         <pre><code data-trim contenteditable>
 public static function getOptions() {
@@ -326,8 +336,8 @@ public static function getOptions() {
                         </code></pre>
                     </section>
                     <section>
-                        <h2>Configuration Form</h2>
-                        <img src="images/extra_contexts_ss-3.png" alt="extra context">
+                        <h2>Explicit Targeting Config</h2>
+                        <img src="images/extra_context_ss2-2.png" alt="extra context">
                     </section>
                     <section>
                         <h3>Method to return possible values</h3>
@@ -351,10 +361,7 @@ public function getPossibleValues() {
 }
                         </code></pre>
                     </section>
-                    <section>
-                        <h2>Explicit Targeting Config</h2>
-                        <img src="images/extra_context_ss2-2.png" alt="extra context">
-                    </section>
+
                     <section>
                         <h3>JavaScript to pass the actual values</h3>
                         <pre><code data-trim contenteditable>
@@ -387,17 +394,16 @@ Drupal.personalize.visitor_context.extra_context = {
                         </ul>
                     </section>
                     <section>
-                        <h2>New plugin suggestion: <strong>Panels layouts?</strong></h2>
+                        <h2>New plugin suggestion: <strong>Page redirects?</strong></h2>
                     </section>
                 </section>
 
                 <section>
                     <section>
-                        <h2>Executors</h2>
-
+                        <h2>Executors are swappable too!</h2>
                     </section>
                     <section>
-                        <h2>The "show" (default) executor</h2>
+                        <h2>The "show" executor</h2>
 <pre><code data-trim contenteditable>
 Drupal.personalize.executors.show = {
     'execute': function ($option_set, choice_name, osid) {
@@ -418,7 +424,7 @@ Drupal.personalize.executors.show = {
                         <img src="images/goals_ss.png" alt="goals demo">
                     </section>
                     <section>
-                        <h2>Goals/Actions are extensible too!</h2>
+                        <h2>Visitor Actions</h2>
                         <ul>
                             <li>Can be defined in code by implementing a hook</li>
                             <li>Can be defined via the Rules UI</li>

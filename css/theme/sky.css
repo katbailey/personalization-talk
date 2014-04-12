@@ -163,3 +163,7 @@ body {
     box-shadow: none;
     background: none;
 }
+
+.reveal p.small {
+    text-align: left;
+}
