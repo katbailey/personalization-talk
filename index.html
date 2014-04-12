@@ -35,98 +35,88 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h2>Personalization in Drupal</h2>
-					<h4>Using and extending Personalize module</h4>
+					<h2>Extending Personalization</h2>
+					<h4>with personalize.module plug-ins.</h4>
 					<p>
-						<small>Presented by <a href="http://katbailey.github.io">Kat Bailey</a> / <a href="http://twitter.com/katherinebailey">@katherinebailey</a></small>
+						<small>Presented by <a href="http://katbailey.github.io">Kat Bailey</a> / <a href="http://twitter.com/katherinebailey">@katherinebailey</a></small><br />
+                        <small>and</small><br />
+                        <small>Presented by <a href="http://drupal.org/user/352282">Dave Ingram</a> / <a href="http://twitter.com/daveaingram">@daveaingram</a></small>
 					</p>
 				</section>
 
-				<section>
-					<h2>Note on Acquia Lift</h2>
-					<p>
-						Acquia Lift is a SaaS offering from Acquia. The Drupal code we wrote to talk to the service was written in such a way as to be able to talk to any other such service or to be used without any "personalization service" at all.
-					</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
-
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>What is personalization?</h2>
-						<p>
-							Showing different content to different users based on some criteria.
-						</p>
-
-							<img src="images/drupalorg_ss.png" alt="personalized">
-
-					</section>
-					<section>
-						<h2>Machine Learning based personalization</h2>
-                        <ul>
-                            <li>Testing different options (A/B test) and adapting over time based on the results.</li>
-                            <li>Needs a goal mechanism to inform the learning</li>
-                            <li>Examples: Optimizely, Adobe Test&Target, Acquia Lift</li>
-                        </ul>
-					</section>
-					<section>
-						<h2>Rules-based personalization</h2>
-                        <ul>
-                            <li>Content is chosen based on some fixed rule, e.g. users in Canada get Option A, users in the US get Option B.</li>
-                            <li>No goal mechanism required</li>
-                            <li>Example: "Personalize Target" submodule of Personalize project on d.o</li>
-                        </ul>
-					</section>
-					<section>
-						<h2>Targeting == Context</h2>
-						<p>Anything you know about site visitors can be used in either machine-learning- or rules-based personalization.</p>
-                        <ul>
-                            <li>Explicit information: e.g. Drupal user profile fields</li>
-                            <li>Implicit information: e.g. geolocation, time of day, referrer URL, UTM parameters</li>
-                        </ul>
-					</section>
-                    <section>
-                        <h2>A Quick Demo</h2>
-                        <img src="images/valen_ss.png" alt="valen demo">
-                    </section>
-				</section>
-
-
-				<section>
-					<h3>Crazy diagram time!</h3>
-                    <img src="images/diagram.png" alt="personalization diagram">
-				</section>
-                <section data-transition="none">
-                    <h3>Crazy diagram time!</h3>
-                    <img src="images/diagram_fade.png" alt="personalization diagram">
-                </section>
                 <section>
-                    <h3>Modules</h3>
-                    <img src="images/AcquiaL.jpg" alt="personalization modules">
-                </section>
-                <section data-transition="none">
-                    <h3>Modules</h3>
-                    <img src="images/AcquiaL1.jpg" alt="personalization modules">
+                    <h2>Look around you</h2>
                 </section>
 
                 <section>
-                    <section>
-                        <h2>Workflow</h2>
-                        <ul>
-                            <li>Set up a personalization campaign</li>
-                            <li>Create content variations</li>
-                            <li>(optional) configure explicit targeting</li>
-                            <li>(optional) Specify Goals</li>
-                            <li>Start the campaign</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h3>Moar Demos</h3>
-                        <img src="images/configuration.png" alt="admin demo">
-                    </section>
+                    <p><img src="images/wireframe.png" /></p>
+                </section>
+
+                <section>
+                    <h2>Visitor Context</h2>
+                    <p><img src="images/contexts.png" /></p>
+                </section>
+
+                <section>
+                    <h2>What now!?</h2>
+                    <p>&nbsp;</p>
+
+                    <h2 class="fragment">Personalize!</h2>
+                    <p class="fragment">
+                        <small>Say wah?</small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Many different kinds of personalization:</h2>
+                    <ul>
+                        <li class="fragment">Testing (A/B, MVT, MAB, etc..)</li>
+                        <li class="fragment">Content recommendations</li>
+                        <li class="fragment">Rules based targeting</li>
+                        <li class="fragment">Magic</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Smart Websites:</h2>
+                    <h4>Content based on context</h4>
+                    <p><img src="images/wireframe.png" width="500" /></p>
+                </section>
+
+                <section data-transition="zoom">
+                    <p><img src="images/server1.png" /></p>
+                </section>
+
+                <section data-transition="none">
+                    <p><img src="images/server2.png" /></p>
+                </section>
+
+                <section data-transition="none">
+                    <p><img src="images/server3.png" /></p>
+                </section>
+
+                <section data-transition="none">
+                    <p><img src="images/server4.png" /></p>
+                </section>
+
+                <section data-transition="none">
+                    <p><img src="images/server5.png" /></p>
+                </section>
+
+                <section data-transition="none">
+                    <p><img src="images/server3.png" /></p>
+                </section>
+
+                <section data-transition="none">
+                    <p><img src="images/server6.png" /></p>
+                </section>
+
+                <section data-transition="none">
+                    <p><img src="images/server7.png" /></p>
+                </section>
+
+                <section>
+                    <h2>Super quick demo time!</h2>
                 </section>
 
                 <section>
