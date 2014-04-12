@@ -144,20 +144,22 @@ body {
 .reveal .slide-number {
   color: #3b759e; }
 
-.reveal section #kat {
-    float: right;
-    height: 500px;
-    width: 400px;
-}
-.reveal section #kat img {
-    border: none;
-    box-shadow: none;
-}
+/*********************************************
+ * Kat's changes - yes I suck at css, sue me.
+ *********************************************/
 
 .reveal section div.left {
+    margin-top: 200px;
     width: 500px;
-    padding-top: 100px;
     float: left;
 }
 
+.reveal p.heading {
+    font-weight: bold;
+}
 
+.reveal img.borderless {
+    border: none;
+    box-shadow: none;
+    background: none;
+}

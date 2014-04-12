@@ -128,21 +128,31 @@
                         <img src="images/agent_decision.png" alt="agent">
                     </section>
                     <section>
+                        <h2>Visitor Context</h2>
+                        <img src="images/visitor_context.png" alt="visitor context">
+                    </section>
+
+                    <section data-background="images/option_sets.png">
                         <h2>Option Sets</h2>
-                        <div class="left"><div class="inner">
+                        <div class="left">
+                            <!-- So sue me -->
+                            <p class="heading">Sets of different...</p>
                             <ul>
-                                <li>Different values in a multi-value field</li>
-                                <li>Different blocks</li>
-                                <li>Different blobs of html to replace the contents of some selector</li>
-                                <li>Different panel panes?</li>
+                                <li>values in a multi-value field</li>
+                                <li>blocks</li>
+                                <li>blobs of html to replace the contents of some selector</li>
+                                <li>panel panes?</li>
                             </ul>
                         </div>
-                        </div>
-                        <div id="kat"><img class="no-border" src="images/option_set.png" alt="agent" align="right"></div>
+
                     </section>
                     <section>
                         <h2>Executors</h2>
                         <img src="images/executor.png" alt="agent">
+                    </section>
+                    <section>
+                        <h2>Goals (Visitor Actions)</h2>
+                        <img class="borderless" src="images/goals.png" alt="goals">
                     </section>
                 </section>
                 <section>
@@ -151,37 +161,95 @@
                 <section>
                     <section>
                         <h2>Agent type plugins</h2>
-                        <p>An agent, or decision agent, is the thing that makes the decision about which piece of content to show</p>
+                        <img class="borderless"  src="images/agent_types.png" alt="agent types">
                     </section>
                     <section>
-                        <h2>Agent type plugins</h2>
-                        <ul>
-                            <li>A/B Testing</li>
-                            <li>Explicit Targeting</li>
-                            <li>Machine Learning (e.g. Google Content Experiments?)</li>
-                            <li>Content Recommendation</li>
-                            <li>Etc...</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Writing an Agent Type plugin</h2>
-                        <ul>
-                            <li>Some PHP code (ctools plugin glue code plus a class implementing a particular interface) for configuring the behavior of the agent.</li>
-                            <li>Some JS code that responds to a request for a decision and provides the decison as to what to show.</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Agent Type plugin examples</h2>
+                        <h2>Existing Agent Type plugins</h2>
                         <ul>
                             <li>Personalize Target</li>
                             <li>Acquia Lift</li>
                         </ul>
                     </section>
+                    <section>
+                        <h2>What type of agent will <strong>*you*</strong> create?</h2>
+                    </section>
+                    <section>
+                        <img src="images/google-analytics.jpg" alt="google">
+                    </section>
+
+                    <section>
+                        <h2>GA Experiments</h2>
+                        <img src="images/google_experiments-2.png" alt="google">
+                    </section>
+                    <section>
+                        <h2>Components of an Agent Type plugin</h2>
+                        <ul>
+                            <li>PHP Class implementing an interface</li>
+                            <li>JavaScript code for the actual decision</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Static method to define form elements for configration</h3>
+                        <pre><code data-trim contenteditable>
+public static function optionsForm($agent_data) {
+    $form = array();
+    // @todo For now we only support pre-configured GA experiments but we should
+    //   support creating them from the Drupal side via the Management API.
+    $form['ga_experiment'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Experiement ID'),
+        '#default_value' => isset($agent_data->data['ga_experiment']) ? $agent_data->data['ga_experiment'] : '',
+        '#description' => t('The ID of the experiment that has been configured in GA'),
+    );
+    return $form;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Configuration Form</h2>
+                        <img src="images/personalize_ga_ss-5.png" alt="personalize GA">
+                    </section>
+                    <section>
+                        <h3>Method to load the JS for the agent</h3>
+                        <pre><code data-trim contenteditable>
+public function getAssets() {
+    $cx_script = 'http://www.google-analytics.com/cx/api.js?experiment=' . $this->data['ga_experiment'];
+    return array(
+        'js' => array(
+            $cx_script => array('type' => 'external'),
+            drupal_get_path('module', 'personalize_ga') . '/personalize_ga.js' => array('type' => 'file', 'scope' => 'footer', 'defer' => TRUE),
+        )
+    );
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>JavaScript to get the decision</h3>
+                        <pre><code data-trim contenteditable>
+Drupal.personalize.agents.personalize_ga = {
+    'getDecisionsForPoint': function(agent_name, visitor_context, choices, decision_point, fallbacks, callback) {
+        var decisions = {};
+        for (var j in choices) {
+            if (choices.hasOwnProperty(j)) {
+                decisions[j] = choices[j][cxApi.chooseVariation()];
+                _gaq.push(['_trackEvent', 'Personalize', 'decision', j, variation, true]);
+            }
+        }
+        callback(decisions);
+    }
+};
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Facebook's Planout</h2>
+                        <img src="images/fb-2.png" alt="facebook">
+                    </section>
+
                 </section>
                 <section>
                     <section>
                         <h2>Visitor Context Plugins</h2>
-                        <p>These give access to things we can know about the visitor, e.g. user profile information, querystring parameters.</p>
+                        <img class="borderless" src="images/visitor_context_plugins.png" alt="visitor context">
                     </section>
                     <section tagcloud>
                         Season
@@ -208,47 +276,33 @@
                         Purchases
                     </section>
                     <section>
-                        <h2>Writing a Visitor Context plugin</h2>
-                        <ul>
-                            <li>Some PHP code (ctools plugin glue code plus a class implementing a particular interface) that plugs into personalize module's configuration of visitor contexts.</li>
-                            <li>Some JS code that passes the actual values of these contexts at runtime to the personalization mechanism.</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Visitor Context plugin examples</h2>
+                        <h2>Existing Visitor Context plugins</h2>
                         <ul>
                             <li>User Profile context (in personalize module)</li>
                             <li>Personalize URL Context submodule (for targeting based on querystring parameters).</li>
                         </ul>
+                    </section>
+                    <section>
+                        <h2>New plugin example: <strong>User roles</strong></h2>
+
                     </section>
                 </section>
 
                 <section>
                     <section>
                         <h2>Option Set Type Plugins</h2>
-                        <p>These allow personalization of different types of Drupal content.</p>
-                    </section>
-                    <section tagcloud large>
-                        Fields
-                        Blocks
-                        Panel panes
-                        Arbitrary page elements
-                        Page layouts
+                        <img class="borderless"  src="images/option_set_types.png" alt="google">
                     </section>
                     <section>
-                        <h2>Writing an Option Set plugin</h2>
-                        <ul>
-                            <li>Uses ctools plugins but no class required - it just needs to hook in to the rendering of whatever it's personalizing </li>
-                            <li>No JS required! :D</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Option Set plugin examples</h2>
+                        <h2>Existing Option Set type plugins</h2>
                         <ul>
                             <li>Personalize Fields submodule</li>
                             <li>Personalize Blocks submodule</li>
                             <li>Personalize Elements submodule</li>
                         </ul>
+                    </section>
+                    <section>
+                        <h2>New plugin suggestion: <strong>Panels layouts?</strong></h2>
                     </section>
                 </section>
 
